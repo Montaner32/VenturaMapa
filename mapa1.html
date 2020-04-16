@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Mapa Web</title>
+
+
+	
+
+
+
+
+
+	<!--Biblioteca de Leaflet-->
+	<link rel="stylesheet" href="libs/CSS/leaflet.css">
+	<script src="libs/JS/leaflet.js"></script>
+
+	<!-- Dibujo-->
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/1.0.4/leaflet.draw-src.js"></script>
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/1.0.4/leaflet.draw.css">
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/1.0.4/leaflet.draw.js"></script>
+
+	<!-- Menú Diapositiva -->
+	<link rel="stylesheet" href="libs/CSS/SlideMenu.css" />
+	<script src="libs/JS/SlideMenu.js"></script>
+	<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
+	<!-- GeoCoder-->
+	<link rel="stylesheet" href="libs/CSS/Control.OSMGeocoder.css" />
+	<script src="libs/JS/Control.OSMGeocoder.js"></script>
+
+	<!-- Visor-->
+	<link rel="stylesheet" href="libs/CSS/MiniMap.css" />
+	<script src="libs/JS/MiniMap.js"></script>
+
+	<!-- Localizadorn-->
+	<link rel="stylesheet" href="libs/CSS/L.Control.Locate.min.css" />
+	<script src="libs/js/L.Control.Locate.js"></script>
+
+	<!-- Posición de Maouse-->
+	<link rel="stylesheet" href="libs/css/L.Control.MousePosition.css" />
+	<script src="libs/js/L.Control.MousePosition.js"></script>
+
+	<!-- Barra de Navegación-->
+	<link rel="stylesheet" href="libs/css/NavBar.css" />
+	<script src="libs/js/NavBar.js"></script>
+
+	<!-- Fuente-->
+	<link href="//maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet">
+
+	<!-- jquery-->
+	<script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+
+	<style>
+		body {
+			padding: 0;
+			margin: 0;
+		}
+
+		html,
+		body,
+		#map {
+			height: 100%;
+			width: 100%;
+		}
+	</style>
+</head>
+
+<body>
+	<div id="map"> </div>
+	<script>
+		///// Fond de base
+		var OpenStreetMap = L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png');
+		var WorldImagery = L.tileLayer('http://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}');
+
+		///// Configuración del Mapa	
+		var map = L.map('map', {
+			layers: [OpenStreetMap], /// Mapa Base
+			center: [19.5489, -71.0569],/// Coordenadas
+			zoom: 14	//// Zoom por Defecto
+		});
+
+		////Capa Base	
+		var baseLayers = {
+			"Open Street Map": OpenStreetMap,
+			"World Imagery": WorldImagery
+		};
+
+		///// Insertar Capas desde Geoserver (format WMS)
+		Project1_wms = 'http://localhost:8080/geoserver/Project1/wms';
+
+		var mao = L.tileLayer.wms(Project1_wms, {
+			layers: 'Project1:mao',
+			format: 'image/png',
+			transparent: true,
+			version: '1.1.0',
+			attribution: "IVAN VENTURA"
+		});
+
+		var bancas = L.tileLayer.wms(Project1_wms, {
+			layers: 'Project1:bancas',
+			format: 'image/png',
+			transparent: true,
+			version: '1.1.0',
+			attribution: "IVAN VENTURA"
+		});
+
+		var escuelas = L.tileLayer.wms(Project1_wms, {
+			layers: 'Project1:Escuelas',
+			format: 'image/png',
+			transparent: true,
+			version: '1.1.1',
+			attribution: "IVAN VENTURA"
+		});
+
+		var bancas100m = L.tileLayer.wms(Project1_wms, {
+			layers: 'Project1:bancas100m',
+			format: 'image/png',
+			transparent: true,
+			version: '1.1.1',
+			attribution: "IVAN VENTURA"
+		});
+
+		var bancas200m = L.tileLayer.wms(Project1_wms, {
+			layers: 'Project1:bancas200m',
+			format: 'image/png',
+			transparent: true,
+			version: '1.1.1',
+			attribution: "IVAN VENTURA"
+		});
+
+		var bancas300m = L.tileLayer.wms(Project1_wms, {
+			layers: 'Project1:bancas300m',
+			format: 'image/png',
+			transparent: true,
+			version: '1.1.1',
+			attribution: "IVAN VENTURA"
+		});
+
+		var bancas400m = L.tileLayer.wms(Project1_wms, {
+			layers: 'Project1:bancas400m',
+			format: 'image/png',
+			transparent: true,
+			version: '1.1.1',
+			attribution: "IVAN VENTURA"
+		});
+
+		var bancas500m = L.tileLayer.wms(Project1_wms, {
+			layers: 'Project1:bancas500m',
+			format: 'image/png',
+			transparent: true,
+			version: '1.1.1',
+			attribution: "IVAN VENTURA"
+		});
+
+		var Nbancas100m = L.tileLayer.wms(Project1_wms, {
+			layers: 'Project1:nbancas100m',
+			format: 'image/png',
+			transparent: true,
+			version: '1.1.1',
+			attribution: "IVAN VENTURA"
+		});
+
+		var Nbancas200m = L.tileLayer.wms(Project1_wms, {
+			layers: 'Project1:nbancas200m',
+			format: 'image/png',
+			transparent: true,
+			version: '1.1.1',
+			attribution: "IVAN VENTURA"
+		});
+
+		var Nbancas300m = L.tileLayer.wms(Project1_wms, {
+			layers: 'Project1:nbancas300m',
+			format: 'image/png',
+			transparent: true,
+			version: '1.1.1',
+			attribution: "IVAN VENTURA"
+		});
+
+		var Nbancas400m = L.tileLayer.wms(Project1_wms, {
+			layers: 'Project1:nbancas400m',
+			format: 'image/png',
+			transparent: true,
+			version: '1.1.1',
+			attribution: "IVAN VENTURA"
+		});
+
+		var Nbancas500m = L.tileLayer.wms(Project1_wms, {
+			layers: 'Project1:nbancas500m',
+			format: 'image/png',
+			transparent: true,
+			version: '1.1.1',
+			attribution: "IVAN VENTURA"
+		});
+
+
+		///// Grupo de Capas
+		var overlays = {
+			"mao": mao,
+			"bancas": bancas,
+			"escuelas": escuelas,
+			"bancas100m": bancas100m,
+			"bancas200m": bancas200m,
+			"bancas300m": bancas300m,
+			"bancas400m": bancas400m,
+			"bancas500m": bancas500m,
+			"Área de 100 M": Nbancas100m,
+			"Área de 200 M": Nbancas200m,
+			"Área de 300 M": Nbancas300m,
+			"Área de 400 M": Nbancas400m,
+			"Área de 500 M": Nbancas500m
+		};
+
+		//// Agrega el Buscardor de Mapa 
+		var osmGeocoder = new L.Control.OSMGeocoder();
+		map.addControl(osmGeocoder);
+
+		///// Agrega la Vista General del Mapa
+		var osm2 = L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png');
+		var miniMap = new L.Control.MiniMap(osm2, { toggleDisplay: true }).addTo(map);
+
+		///// Agrega el Control de Escala del Mapa
+		L.control.scale().addTo(map);
+
+		///// Agrega la Barra de Navegación
+		L.control.navbar({ position: 'topleft' }).addTo(map);
+
+		///// Agrega el Control de Gelocalización del Mapa
+		L.control.locate().addTo(map);
+
+		///// Agrega la Posición del Cursor en el Mapa
+		L.control.mousePosition().addTo(map);
+
+		///// Agrega la Función de Dibujar
+		var drawnItems = new L.FeatureGroup();
+		map.addLayer(drawnItems);
+
+		///// Configura la Característica de Dibujo
+		var drawControl = new L.Control.Draw({
+			position: 'topleft',
+			draw: {
+				polygon: {
+					shapeOptions: { color: 'purple' },
+					allowIntersection: false,
+					drawError: { color: 'orange', timeout: 1000 },
+					showArea: true,
+					metric: false,
+					repeatMode: true
+				},
+				polyline: {
+					shapeOptions: { color: 'red' },
+				},
+				rect: {
+					shapeOptions: { color: 'green' },
+				},
+				circle: {
+					shapeOptions: { color: 'steelblue' },
+				},
+				marker: true
+			},
+			edit: {
+				featureGroup: drawnItems,
+				remove: true
+			}
+		});
+		map.addControl(drawControl);
+		map.on('draw:created', function (e) {
+			var type = e.layerType,
+				layer = e.layer;
+			drawnItems.addLayer(layer);
+		});
+
+		/////////// Menú en Barra
+
+		var div = L.DomUtil.create('div', 'info-legend');
+		var titre1 = 'Mao';
+		contents1 = div.innerHTML = '<br><img src="http://localhost:8080/geoserver/Project1/wms?service=WMS&version=1.1.0&request=GetMap&layers=Project1%3Amao&bbox=277866.375%2C2160678.25%2C283268.75%2C2165728.75&width=30&height=30&srs=EPSG%3A32619&format=image%2Fpng" </img><br>';
+
+		var titre2 = 'Bancas';
+		contents2 = div.innerHTML = '<br><img src="http://localhost:8080/geoserver/Project1/wms?service=WMS&version=1.1.0&request=GetMap&layers=Project1%3Abancas&bbox=278323.75%2C2160763.75%2C283185.78125%2C2165403.5&width=30&height=30&srs=EPSG%3A32619&format=image%2Fpng" </img><br>';
+
+		var titre3 = 'Escuelas';
+		contents3 = div.innerHTML = '<br><img src="http://localhost:8080/geoserver/Project1/wms?service=WMS&version=1.1.0&request=GetMap&layers=Project1%3AEscuelas&bbox=278265.1783%2C2161288.8925%2C283078.4281%2C2165283.7312&width=30&height=30&srs=EPSG%3A32619&format=image%2Fpng" </img><br>';
+
+		var titre4 = 'Buffer Bancas 100m';
+		contents4 = div.innerHTML = '<br><img src="http://localhost:8080/geoserver/Project1/wms?service=WMS&version=1.1.0&request=GetMap&layers=Project1%3Abancas100m&bbox=278223.75%2C2160736.0%2C283257.625%2C2165503.5&width=30&height=30&srs=EPSG%3A32619&format=image%2Fpng" </img><br>';
+
+		var titre5 = 'Buffer Bancas 200m';
+		contents5 = div.innerHTML = '<br><img src="http://localhost:8080/geoserver/Project1/wms?service=WMS&version=1.1.0&request=GetMap&layers=Project1%3Abancas200m&bbox=278123.75%2C2160694.75%2C283268.75%2C2165603.5&width=30&height=30&srs=EPSG%3A32619&format=image%2Fpng" </img><br>';
+
+		var titre6 = 'Buffer Bancas 300m';
+		contents6 = div.innerHTML = '<br><img src="http://localhost:8080/geoserver/Project1/wms?service=WMS&version=1.1.0&request=GetMap&layers=Project1%3Abancas300m&bbox=278037.90625%2C2160678.25%2C283268.75%2C2165703.5&width=30&height=30&srs=EPSG%3A32619&format=image%2Fpng" </img><br>';
+
+		var titre7 = 'Buffer Bancas 400m';
+		contents7 = div.innerHTML = '<br><img src="http://localhost:8080/geoserver/Project1/wms?service=WMS&version=1.1.0&request=GetMap&layers=Project1%3Abancas400m&bbox=277985.1875%2C2160678.25%2C283268.75%2C2165728.75&width=30&height=30&srs=EPSG%3A32619&format=image%2Fpng" </img><br>';
+
+		var titre8 = 'Buffer Bancas 500m';
+		contents8 = div.innerHTML = '<br><img src="http://localhost:8080/geoserver/Project1/wms?service=WMS&version=1.1.0&request=GetMap&layers=Project1%3Abancas500m&bbox=277937.15625%2C2160678.25%2C283268.75%2C2165728.75&width=30&height=30&srs=EPSG%3A32619&format=image%2Fpng" </img><br>';
+
+		var titre9 = 'Área de 100m';
+		contents9 = div.innerHTML = '<br><img src="http://localhost:8080/geoserver/Project1/wms?service=WMS&version=1.1.0&request=GetMap&layers=Project1%3Anbancas100m&bbox=278223.75%2C2160736.0%2C283257.625%2C2165503.5&width=30&height=30&srs=EPSG%3A32619&format=image%2Fpng" </img><br>';
+
+		var titre10 = 'Área de 200m';
+		contents10 = div.innerHTML = '<br><img src="http://localhost:8080/geoserver/Project1/wms?service=WMS&version=1.1.0&request=GetMap&layers=Project1%3Anbancas200m&bbox=278123.75%2C2160694.75%2C283268.75%2C2165603.5&width=30&height=30&srs=EPSG%3A32619&format=image%2Fpng" </img><br>';
+
+		var titre11 = 'Área de 300m';
+		contents11 = div.innerHTML = '<br><img src="http://localhost:8080/geoserver/Project1/wms?service=WMS&version=1.1.0&request=GetMap&layers=Project1%3Anbancas200m&bbox=278123.75%2C2160694.75%2C283268.75%2C2165603.5&width=30&height=30&srs=EPSG%3A32619&format=image%2Fpng" </img><br>';
+
+		var titre12 = 'Área de 400m';
+		contents12 = div.innerHTML = '<br><img src="http://localhost:8080/geoserver/Project1/wms?service=WMS&version=1.1.0&request=GetMap&layers=Project1%3Anbancas300m&bbox=278037.90625%2C2160678.25%2C283268.75%2C2165703.5&width=30&height=30&srs=EPSG%3A32619&format=image%2Fpng" </img><br>';
+
+		var titre13 = 'Área de 500m';
+		contents13 = div.innerHTML = '<br><img src="http://localhost:8080/geoserver/Project1/wms?service=WMS&version=1.1.0&request=GetMap&layers=Project1%3Anbancas500m&bbox=277937.15625%2C2160678.25%2C283268.75%2C2165728.75&width=30&height=30&srs=EPSG%3A32619&format=image%2Fpng" </img><br>';
+
+		var slideMenu = L.control.slideMenu('', { position: 'topright', delay: '5' }).addTo(map);
+		slideMenu.setContents(titre1 + contents1 + titre2 + contents2 + titre3 + contents3 + titre4 + contents4 + titre5 + contents5 + titre6 + contents6 + titre7 + contents7 + titre8 + contents8 + titre9 + contents9 + titre10 + contents10 + titre11 + contents11 + titre12 + contents12 + titre13 + contents13);
+
+		///// Ajout des couches de base + couches geoserver
+		L.control.layers(baseLayers, overlays).addTo(map);
+
+		// Popup limite_inter_district
+		var owsrootUrl = Project1_wms;
+		var defaultParameters = {
+			service: 'WFS',
+			version: '2.0',
+			request: 'GetFeature',
+			typeName: 'Project1:mao',
+			outputFormat: 'json',
+			format_options: 'callback:getJson',
+			SrsName: 'EPSG:32619'
+		};
+
+		var parameters = L.Util.extend(defaultParameters);
+		var URL = owsrootUrl + L.Util.getParamString(parameters);
+		var ajax = $.ajax({
+			url: URL,
+			dataType: 'json',
+			jsonpCallback: 'getJson',
+			success: function (response) {
+				L.geoJson(response, {
+					onEachFeature: function (feature, url) {
+						popupOptions = { maxWidth: 250 };
+						url.bindPopup("<b>nom_deriv:</b> " + feature.properties.nom_deriv +
+							"<br><b>nom_l_i_d: </b>" + feature.properties.nom_l_i_d +
+							"<br><b>code_gto: </b>" + feature.properties.code_gto +
+							"<br><b>nom_p_s: </b>" + feature.properties.nom_p_s +
+							"<br><b>code_p_s: </b>" + feature.properties.code_p_s +
+							"<br><b>nom_depart: </b>" + feature.properties.nom_depart +
+							"<br><b>code_dep: </b>" + feature.properties.code_dep
+							, popupOptions);
+					}
+				}).addTo(map);
+			}
+		});
+
+	//file:/C:/xxx.png
+	</script>
+	<script type="text/javascript">
+		//Analytics
+		var _gaq = _gaq || [];
+		_gaq.push(['_setAccount', 'UA-36489204-2']);
+		_gaq.push(['_trackPageview']);
+		(function () {
+			var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+			ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+			var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+		})();
+	</script>
+</body>
+
+</html>
